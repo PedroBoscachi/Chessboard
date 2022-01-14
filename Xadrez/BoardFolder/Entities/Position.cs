@@ -1,5 +1,5 @@
 ﻿
-namespace Xadrez.Board.Entities
+namespace Xadrez.BoardFolder.Entities
 {
     class Position
     {
