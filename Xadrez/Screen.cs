@@ -11,9 +11,9 @@ namespace Xadrez
     {
         public static void ShowBoard(Board board)
         {
-            for(int i = 0; i < board.Line; i++)
+            for(int i = 0; i < board.Lines; i++)
             {
-                for(int j = 0; j < board.Column; j++)
+                for(int j = 0; j < board.Columns; j++)
                 {
                     if(board.PositionPiece(i, j) == null)
                     {

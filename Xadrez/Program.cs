@@ -2,6 +2,7 @@
 using Xadrez.BoardFolder.Entities;
 using Xadrez.BoardFolder.Entities.Enums;
 using Xadrez.GameFolder.Entities;
+using Xadrez.BoardFolder.BoardExceptions;
 
 namespace Xadrez
 {
@@ -9,13 +10,21 @@ namespace Xadrez
     {
         static void Main(string[] args)
         {
-            Board board = new Board(8,8);
+            try
+            {
+                Board board = new Board(8, 8);
 
-            board.PlacePiece(new King(Color.Black, board), new Position(1, 3));
-            board.PlacePiece(new Tower(Color.Black, board), new Position(1, 7));
-            board.PlacePiece(new Tower(Color.Black, board), new Position(4, 1));
+                board.PlacePiece(new King(Color.Black, board), new Position(1, 3));
+                board.PlacePiece(new Tower(Color.Black, board), new Position(1, 7));
+                board.PlacePiece(new Tower(Color.Black, board), new Position(1, 3));
 
-            Screen.ShowBoard(board);
+                Screen.ShowBoard(board);
+            }
+            catch (BoardException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
         }
     }
 }
