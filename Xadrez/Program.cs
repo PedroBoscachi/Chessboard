@@ -14,7 +14,19 @@ namespace Xadrez
             {
                 ChessMatch match = new ChessMatch();
 
+                while (!match.Finished)
+                {
+                    Console.Clear();
+                    Screen.ShowBoard(match.Board);
 
+                    Console.WriteLine();
+                    Console.Write("Origin: ");
+                    Position origin = Screen.ReadPositionChess().ToPosition();
+                    Console.Write("Destiny: ");
+                    Position destiny = Screen.ReadPositionChess().ToPosition();
+
+                    match.Move(origin, destiny);
+                }
                 
 
                 Screen.ShowBoard(match.Board);

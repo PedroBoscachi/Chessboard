@@ -13,12 +13,14 @@ namespace Xadrez.GameFolder.Entities
         public Board Board { get; private set; }
         private int Shift;//Turno
         private Color CurrentPlayer;
+        public bool Finished { get; private set; }
 
         public ChessMatch()
         {
             Board = new Board(8, 8);
             Shift = 1;
             CurrentPlayer = Color.White;//sempre inicia com o jogador branco
+            Finished = false;
             PlacePieces();
         }
 

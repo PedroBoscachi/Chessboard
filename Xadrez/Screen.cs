@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xadrez.BoardFolder.Entities;
 using Xadrez.BoardFolder.Entities.Enums;
+using Xadrez.GameFolder.Entities;
 
 namespace Xadrez
 {
@@ -35,6 +36,14 @@ namespace Xadrez
             Console.Write("  a b c d e f g h");
         }
 
+        public static PositionChess ReadPositionChess()
+        {
+            string s = Console.ReadLine();
+            char column = s[0];
+            int line = int.Parse(s[1] + "");//aspas sem espaço força a ser lido como string
+            return new PositionChess(column, line);
+        }
+        
         public static void ShowPiece(Piece piece)
         {
             if(piece.Color == Color.White)
