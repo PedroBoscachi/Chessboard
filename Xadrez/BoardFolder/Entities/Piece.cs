@@ -7,7 +7,7 @@ using Xadrez.BoardFolder.Entities.Enums;
 
 namespace Xadrez.BoardFolder.Entities
 {
-    class Piece
+    abstract class Piece
     {
         public Position Position { get; set; }//posição da peça
         public Color Color { get; protected set; }//cor da peça
@@ -30,6 +30,10 @@ namespace Xadrez.BoardFolder.Entities
         {
             MovimentAmount++;
         }
+
+        public abstract bool[,] PossibleMoviments();//abstract diz que esse método não tem 
+        //implementação nessa clase
+        
 
     }
 }

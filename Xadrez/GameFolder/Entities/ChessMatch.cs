@@ -34,19 +34,19 @@ namespace Xadrez.GameFolder.Entities
 
         private void PlacePieces()
         {
-            Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('c', 1).ToPosition());
-            Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('c', 2).ToPosition());
+            Board.PlacePiece(new Tower(Color.White, Board), new PositionChess('c', 1).ToPosition());
+            Board.PlacePiece(new Tower(Color.White, Board), new PositionChess('c', 2).ToPosition());
             Board.PlacePiece(new Tower(Color.White, Board), new PositionChess('d', 2).ToPosition());
-            Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('e', 2).ToPosition());
-            Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('e', 1).ToPosition());
+            Board.PlacePiece(new Tower(Color.White, Board), new PositionChess('e', 2).ToPosition());
+            Board.PlacePiece(new Tower(Color.White, Board), new PositionChess('e', 1).ToPosition());
             Board.PlacePiece(new King(Color.White, Board), new PositionChess('d', 1).ToPosition());
 
             Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('c', 7).ToPosition());
             Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('c', 8).ToPosition());
-            Board.PlacePiece(new Tower(Color.White, Board), new PositionChess('d', 7).ToPosition());
+            Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('d', 7).ToPosition());
             Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('e', 7).ToPosition());
             Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('e', 8).ToPosition());
-            Board.PlacePiece(new King(Color.White, Board), new PositionChess('d', 8).ToPosition());
+            Board.PlacePiece(new King(Color.Black, Board), new PositionChess('d', 8).ToPosition());
         }
     }
 }

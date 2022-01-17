@@ -20,20 +20,43 @@ namespace Xadrez
                 
                 for(int j = 0; j < board.Columns; j++)
                 {
-                    if(board.PositionPiece(i, j) == null)//se a posição estiver vazia coloca um traço
-                    {
-                        Console.Write("- ");
-                    } else
-                    {
-                        ShowPiece(board.PositionPiece(i, j));
-                        Console.Write(" ");
-                    }
+                        ShowPiece(board.PositionPiece(i, j));                 
                 }
 
                 Console.WriteLine();
             }
 
             Console.Write("  a b c d e f g h");
+        }
+
+        public static void ShowBoard(Board board, bool[,] possibleMoviments) //mostra o tabuleiro
+        {
+            ConsoleColor originalBackground = Console.BackgroundColor;
+            ConsoleColor modifiedBackground = ConsoleColor.DarkGray;
+            
+            for (int i = 0; i < board.Lines; i++)
+            {
+
+                Console.Write(8 - i + " ");
+
+                for (int j = 0; j < board.Columns; j++)
+                {
+                    if (possibleMoviments[i, j])
+                    {
+                        Console.BackgroundColor = modifiedBackground;
+                    } else
+                    {
+                        Console.BackgroundColor = originalBackground;
+                    }
+                    ShowPiece(board.PositionPiece(i, j));
+                    Console.BackgroundColor = originalBackground;
+                }
+
+                Console.WriteLine();
+            }
+
+            Console.Write("  a b c d e f g h");
+            Console.BackgroundColor = originalBackground;
         }
 
         public static PositionChess ReadPositionChess()
@@ -46,16 +69,25 @@ namespace Xadrez
         
         public static void ShowPiece(Piece piece)
         {
-            if(piece.Color == Color.White)
+            if(piece == null)
             {
-                Console.Write(piece);
+                Console.Write("- ");
             } else
             {
-                ConsoleColor aux = Console.ForegroundColor; // se a cor da peça for preta
-                Console.ForegroundColor = ConsoleColor.Yellow;//coloca o console
-                Console.Write(piece);//com  a cor amarela
-                Console.ForegroundColor = aux;
+                if (piece.Color == Color.White)
+                {
+                    Console.Write(piece);
+                } else
+                {
+                    ConsoleColor aux = Console.ForegroundColor; // se a cor da peça for preta
+                    Console.ForegroundColor = ConsoleColor.Yellow;//coloca o console
+                    Console.Write(piece);//com  a cor amarela
+                    Console.ForegroundColor = aux;
+                }
+                Console.Write(" ");
             }
+            
+            
         }
     }
 }
