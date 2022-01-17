@@ -9,10 +9,10 @@ namespace Xadrez.BoardFolder.Entities
 {
     class Piece
     {
-        public Position Position { get; set; }
-        public Color Color { get; protected set; }
-        public int MovimentAmount { get; protected set; }
-        public Board Board { get; protected set; }
+        public Position Position { get; set; }//posição da peça
+        public Color Color { get; protected set; }//cor da peça
+        public int MovimentAmount { get; protected set; }//quantidade de movimentos que a peça fez
+        public Board Board { get; protected set; }//tabuleiro em que se encontra
 
         public Piece()
         {
@@ -20,10 +20,10 @@ namespace Xadrez.BoardFolder.Entities
 
         public Piece(Color color, Board board)
         {
-            Position =null;
+            Position =null;//posição inicia nula
             Color = color;
             Board = board;
-            MovimentAmount = 0;
+            MovimentAmount = 0;//movimento inicia com zero
         }
 
     }

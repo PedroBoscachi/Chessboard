@@ -16,7 +16,7 @@ namespace Xadrez
 
                 board.PlacePiece(new King(Color.Black, board), new Position(1, 3));
                 board.PlacePiece(new Tower(Color.Black, board), new Position(1, 7));
-                board.PlacePiece(new Tower(Color.Black, board), new Position(1, 3));
+                board.PlacePiece(new Tower(Color.Black, board), new Position(1, 4));
 
                 Screen.ShowBoard(board);
             }
