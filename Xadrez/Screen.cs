@@ -42,9 +42,9 @@ namespace Xadrez
                 Console.Write(piece);
             } else
             {
-                ConsoleColor aux = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write(piece);
+                ConsoleColor aux = Console.ForegroundColor; // se a cor da peça for preta
+                Console.ForegroundColor = ConsoleColor.Yellow;//coloca o console
+                Console.Write(piece);//com  a cor amarela
                 Console.ForegroundColor = aux;
             }
         }

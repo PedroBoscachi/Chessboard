@@ -52,6 +52,19 @@ namespace Xadrez.BoardFolder.Entities
             piece.Position = position; //a posição da peça é alterada para a posição recebida
         }
 
+        public Piece RemovePiece(Position pos)
+        {
+            if(PositionPiece(pos) == null)
+            {
+                return null;
+            }
+
+            Piece aux = PositionPiece(pos);
+            aux.Position = null;
+            Pieces[pos.Line, pos.Column] = null;
+            return aux;
+        }
+
         public bool ValidPosition(Position position)//checa se é uma posição possível no tabuleiro
         {
             if(position.Line < 0 || position.Line >= Lines || position.Column < 0 || position.Column >= Columns)

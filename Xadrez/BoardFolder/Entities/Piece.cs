@@ -26,5 +26,10 @@ namespace Xadrez.BoardFolder.Entities
             MovimentAmount = 0;//movimento inicia com zero
         }
 
+        public void IncrementMovimentAmount()
+        {
+            MovimentAmount++;
+        }
+
     }
 }
