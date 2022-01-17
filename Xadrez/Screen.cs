@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xadrez.BoardFolder.Entities;
+using Xadrez.BoardFolder.Entities.Enums;
 
 namespace Xadrez
 {
@@ -23,7 +24,8 @@ namespace Xadrez
                         Console.Write("- ");
                     } else
                     {
-                        Console.Write(board.PositionPiece(i, j) + " ");//printa a peça na posição
+                        ShowPiece(board.PositionPiece(i, j));
+                        Console.Write(" ");
                     }
                 }
 
@@ -31,6 +33,20 @@ namespace Xadrez
             }
 
             Console.Write("  a b c d e f g h");
+        }
+
+        public static void ShowPiece(Piece piece)
+        {
+            if(piece.Color == Color.White)
+            {
+                Console.Write(piece);
+            } else
+            {
+                ConsoleColor aux = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(piece);
+                Console.ForegroundColor = aux;
+            }
         }
     }
 }
