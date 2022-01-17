@@ -33,7 +33,7 @@ namespace Xadrez.BoardFolder.Entities
 
         public bool ExistPossibleMovements()
         {
-            bool[,] matriz = PossibleMoviments();
+            bool[,] matriz = PossibleMovements();
             for(int i = 0; i < Board.Lines; i++)
             {
                 for(int j = 0; j < Board.Columns; j++)
@@ -49,10 +49,11 @@ namespace Xadrez.BoardFolder.Entities
 
         public bool CanMoveTo(Position pos)
         {
-            return PossibleMoviments()[pos.Line, pos.Column];
+            return PossibleMovements()[pos.Line, pos.Column];//o operador dentro de[] acessa a matriz e
+            //retorna um valor booleano, pois  PossibleMoviments retorna uma matriz
         }
 
-        public abstract bool[,] PossibleMoviments();//abstract diz que esse método não tem 
+        public abstract bool[,] PossibleMovements();//abstract diz que esse método não tem 
         //implementação nessa clase
         
 

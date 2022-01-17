@@ -30,7 +30,7 @@ namespace Xadrez
                         Position origin = Screen.ReadPositionChess().ToPosition();
                         match.ValidatedOriginPosition(origin);
 
-                        bool[,] possiblePositions = match.Board.PositionPiece(origin).PossibleMoviments();
+                        bool[,] possiblePositions = match.Board.PositionPiece(origin).PossibleMovements();
 
                         Console.Clear();
                         Screen.ShowBoard(match.Board, possiblePositions);

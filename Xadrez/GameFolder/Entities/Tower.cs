@@ -15,7 +15,7 @@ namespace Xadrez.GameFolder.Entities
             return p == null || p.Color != Color;
         }
 
-        public override bool[,] PossibleMoviments()
+        public override bool[,] PossibleMovements()
         {
             bool[,] matriz = new bool[Board.Lines, Board.Columns];
 
