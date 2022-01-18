@@ -17,6 +17,7 @@ namespace Xadrez.BoardFolder.Entities
         }
 
         public void SetValues(int line, int column)
+        //método criado apenas para setar os valores e poder muda-los depois
         {
             Line = line;
             Column = column;

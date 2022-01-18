@@ -15,6 +15,8 @@ namespace Xadrez.GameFolder.Entities
         public int Shift { get; set; }//Turno
         public Color CurrentPlayer { get; set; }
         public bool Finished { get; private set; }
+        private HashSet<Piece> Pieces;//isso é um conjunto de peças
+        private HashSet<Piece> CapturedPieces;//conjunto de peças capturadas
 
         public ChessMatch()
         {
@@ -22,25 +24,31 @@ namespace Xadrez.GameFolder.Entities
             Shift = 1;
             CurrentPlayer = Color.White;//sempre inicia com o jogador branco
             Finished = false;
+            Pieces = new HashSet<Piece>();//instancia os conjuntos
+            CapturedPieces = new HashSet<Piece>();
             PlacePieces();
         }
 
-        public void Move(Position origin, Position destiny)
+        public void Move(Position origin, Position destiny)//movimenta a peça
         {
-            Piece p = Board.RemovePiece(origin);
-            p.IncrementMovimentAmount();
-            Piece capturedPiece = Board.RemovePiece(destiny);
-            Board.PlacePiece(p, destiny);
+            Piece p = Board.RemovePiece(origin);//remove a peça escolhida temporiaramente
+            p.IncrementMovimentAmount();//acrescenta o número de movimentos da peça
+            Piece capturedPiece = Board.RemovePiece(destiny);//remove a peça do destino e guarda ela
+            Board.PlacePiece(p, destiny);//coloca a peça de origem na posição de destino
+            if(capturedPiece != null)//se a peça capturada não for nula adiciona ela no conjunto
+            {
+                CapturedPieces.Add(capturedPiece);
+            }
         }
 
-        public void Play(Position origin, Position destiny)
+        public void Play(Position origin, Position destiny)//executa a jogada
         {
             Move(origin, destiny);
-            Shift++;
-            ChangePlayer();
+            Shift++;//incrementa o turno
+            ChangePlayer();//troca de jogador
         }
 
-        public void ValidatedOriginPosition(Position pos)
+        public void ValidatedOriginPosition(Position pos)//erros que podem ocorrer ao escolher a origem
         {
             if (!Board.ExistPiece(pos))
             {
@@ -63,7 +71,8 @@ namespace Xadrez.GameFolder.Entities
             }
         }
 
-        public void ValidateDestinyPosition(Position origin, Position destiny)
+        public void ValidateDestinyPosition(Position origin, Position destiny)//erros que podem ocorrer
+            //ao escolher o destino
         {
             if (!Board.PositionPiece(origin).CanMoveTo(destiny))
             {
@@ -81,22 +90,57 @@ namespace Xadrez.GameFolder.Entities
                 CurrentPlayer = Color.White;
             }
         }
+
+        public HashSet<Piece> ChessCapturedPieces(Color color)//método que retorna um conjunto de peças
+            //capturadas
+        {
+            HashSet<Piece> aux = new HashSet<Piece>();
+            foreach(Piece x in CapturedPieces)
+            {
+                if(x.Color == color)//se a cor da peça for a cor do argumento adiciona no conjunto auxiliar
+                {
+                    aux.Add(x);
+                }
+            }
+            return aux;//retorna o conjunto auxiliar
+        }
+
+        public HashSet<Piece> PiecesInGame(Color color)//método que retorna as peças que estão em jogo
+        {
+            HashSet<Piece> aux = new HashSet<Piece>();
+            foreach(Piece x in Pieces)
+            {
+                if(x.Color == color)
+                {
+                    aux.Add(x);
+                }
+            }
+            aux.ExceptWith(ChessCapturedPieces(color));//tira as peças capturadas do conjunto, ou seja,
+            //resta apenas as que estão em jogo
+            return aux;
+        }
+
+        public void PlaceNewPiece(char column, int line, Piece piece)//método para facilitar 
+        {
+            Board.PlacePiece(piece, new PositionChess(column, line).ToPosition());
+            Pieces.Add(piece);//adiciona a peça no conjunto
+        }
         
         private void PlacePieces()
         {
-            Board.PlacePiece(new Tower(Color.White, Board), new PositionChess('c', 1).ToPosition());
-            Board.PlacePiece(new Tower(Color.White, Board), new PositionChess('c', 2).ToPosition());
-            Board.PlacePiece(new Tower(Color.White, Board), new PositionChess('d', 2).ToPosition());
-            Board.PlacePiece(new Tower(Color.White, Board), new PositionChess('e', 2).ToPosition());
-            Board.PlacePiece(new Tower(Color.White, Board), new PositionChess('e', 1).ToPosition());
-            Board.PlacePiece(new King(Color.White, Board), new PositionChess('d', 1).ToPosition());
+            PlaceNewPiece('c', 1, new Tower(Color.White, Board));
+            PlaceNewPiece('c', 2, new Tower(Color.White, Board));
+            PlaceNewPiece('d', 2, new Tower(Color.White, Board));
+            PlaceNewPiece('e', 2, new Tower(Color.White, Board));
+            PlaceNewPiece('e', 1, new Tower(Color.White, Board));
+            PlaceNewPiece('d', 1, new King(Color.White, Board));
 
-            Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('c', 7).ToPosition());
-            Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('c', 8).ToPosition());
-            Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('d', 7).ToPosition());
-            Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('e', 7).ToPosition());
-            Board.PlacePiece(new Tower(Color.Black, Board), new PositionChess('e', 8).ToPosition());
-            Board.PlacePiece(new King(Color.Black, Board), new PositionChess('d', 8).ToPosition());
+            PlaceNewPiece('c', 7, new Tower(Color.Black, Board));
+            PlaceNewPiece('c', 8, new Tower(Color.Black, Board));
+            PlaceNewPiece('d', 7, new Tower(Color.Black, Board));
+            PlaceNewPiece('e', 7, new Tower(Color.Black, Board));
+            PlaceNewPiece('e', 8, new Tower(Color.Black, Board));
+            PlaceNewPiece('d', 8, new King(Color.Black, Board));
         }
     }
 }

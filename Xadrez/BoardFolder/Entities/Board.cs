@@ -66,6 +66,8 @@ namespace Xadrez.BoardFolder.Entities
         }
 
         public bool ValidPosition(Position position)//checa se é uma posição possível no tabuleiro
+        //ou seja, se essa posição existe no tabuleiro, se ela não é menor que 0 ou maior que a maior casa
+        //possível
         {
             if(position.Line < 0 || position.Line >= Lines || position.Column < 0 || position.Column >= Columns)
             {

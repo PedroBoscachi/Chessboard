@@ -23,14 +23,17 @@ namespace Xadrez.GameFolder.Entities
 
             //acima
             pos.SetValues(Position.Line - 1, Position.Column);
-            while(Board.ValidPosition(pos) && CanMove(pos))
+            while(Board.ValidPosition(pos) && CanMove(pos))//o while é necessário pois a torre
+            //pode andar tanto na vertical como na horizontal, ou seja, enquanto a posição for válida
+            //ela pode ir
             {
-                matriz[pos.Line, pos.Column] = true;
+                matriz[pos.Line, pos.Column] = true;//coloca true na posição para mostrar que é válida
                 if(Board.PositionPiece(pos) != null && Board.PositionPiece(pos).Color != Color)
+                //se a posição não for nula e a peça nela for inimiga, a torre pode ir até essa posição
                 {
                     break;
                 }
-                pos.Line = pos.Line - 1;
+                pos.Line = pos.Line - 1;//senão continua indo para cima
             }
 
             //abaixo

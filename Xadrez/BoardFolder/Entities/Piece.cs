@@ -31,14 +31,16 @@ namespace Xadrez.BoardFolder.Entities
             MovimentAmount++;
         }
 
-        public bool ExistPossibleMovements()
+        public bool ExistPossibleMovements()//esse método checa se existe algum movimento possível para
+            //a peça, ou seja, se ela não está bloqueada
         {
-            bool[,] matriz = PossibleMovements();
+            bool[,] matriz = PossibleMovements();//matriz que recebe a matriz com os booleanos de movimento
             for(int i = 0; i < Board.Lines; i++)
             {
                 for(int j = 0; j < Board.Columns; j++)
                 {
-                    if (matriz[i, j])
+                    if (matriz[i, j])//se existe ao menos uma posição com true, retorna true e finaliza o
+                        //método
                     {
                         return true;
                     }
@@ -47,14 +49,17 @@ namespace Xadrez.BoardFolder.Entities
             return false;
         }
 
-        public bool CanMoveTo(Position pos)
+        public bool CanMoveTo(Position pos)//possíveis posições que a peça pode ir
         {
             return PossibleMovements()[pos.Line, pos.Column];//o operador dentro de[] acessa a matriz e
-            //retorna um valor booleano, pois  PossibleMoviments retorna uma matriz
+            //retorna um valor booleano, pois  PossibleMoviments retorna uma matriz, ou seja,
+            //retorna o valor que está nas coordenas passadas dentro dos colchetes
         }
 
         public abstract bool[,] PossibleMovements();//abstract diz que esse método não tem 
-        //implementação nessa clase
+        //implementação nessa clase, esse método retorna uma matriz de booleanas, contendo true
+        //onde é possível a peça se mover, por isso, sua implementação precisa ser feita na classe
+        //da peça especifica
         
 
     }

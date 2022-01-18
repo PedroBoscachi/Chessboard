@@ -12,23 +12,19 @@ namespace Xadrez
         {
             try
             {
-                ChessMatch match = new ChessMatch();
+                ChessMatch match = new ChessMatch();//cria nova partida
 
                 while (!match.Finished)
                 {
                     try
                     {
                         Console.Clear();
-                        Screen.ShowBoard(match.Board);
-                        Console.WriteLine(" ");
-                        Console.WriteLine(" ");
-                        Console.WriteLine("Shift: " + match.Shift);
-                        Console.WriteLine("Waiting movement: " + match.CurrentPlayer);
+                        Screen.ShowMatch(match);
 
                         Console.WriteLine();
                         Console.Write("Origin: ");
                         Position origin = Screen.ReadPositionChess().ToPosition();
-                        match.ValidatedOriginPosition(origin);
+                        match.ValidatedOriginPosition(origin);//checa se a posição é válida
 
                         bool[,] possiblePositions = match.Board.PositionPiece(origin).PossibleMovements();
 
