@@ -31,6 +31,11 @@ namespace Xadrez.BoardFolder.Entities
             MovimentAmount++;
         }
 
+        public void DecrementMovimentAmount()
+        {
+            MovimentAmount--;
+        }
+
         public bool ExistPossibleMovements()//esse método checa se existe algum movimento possível para
             //a peça, ou seja, se ela não está bloqueada
         {

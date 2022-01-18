@@ -17,6 +17,7 @@ namespace Xadrez.GameFolder.Entities
         public bool Finished { get; private set; }
         private HashSet<Piece> Pieces;//isso é um conjunto de peças
         private HashSet<Piece> CapturedPieces;//conjunto de peças capturadas
+        public bool Check { get; private set; }
 
         public ChessMatch()
         {
@@ -29,7 +30,7 @@ namespace Xadrez.GameFolder.Entities
             PlacePieces();
         }
 
-        public void Move(Position origin, Position destiny)//movimenta a peça
+        public Piece Move(Position origin, Position destiny)//movimenta a peça
         {
             Piece p = Board.RemovePiece(origin);//remove a peça escolhida temporiaramente
             p.IncrementMovimentAmount();//acrescenta o número de movimentos da peça
@@ -39,11 +40,39 @@ namespace Xadrez.GameFolder.Entities
             {
                 CapturedPieces.Add(capturedPiece);
             }
+
+            return capturedPiece;
         }
 
+        public void UndoMove(Position origin, Position destiny, Piece capturedPiece)//desfaz movimento
+        {
+            Piece p = Board.RemovePiece(destiny);//remove a peça da posição de destino
+            p.DecrementMovimentAmount();//decrementa o número de movimentos
+            if(capturedPiece != null)// se a peça capturada não for nula
+            {
+                Board.PlacePiece(capturedPiece, destiny);//coloca ela de volta na posição de destino
+                CapturedPieces.Remove(capturedPiece);//remove ela do  conjunto de capturadas
+            }
+            Board.PlacePiece(p, origin);//coloca a peça p de volta na posição de origem
+        }
+        
         public void Play(Position origin, Position destiny)//executa a jogada
         {
-            Move(origin, destiny);
+            Piece capturedPiece = Move(origin, destiny);//recebe a peça capturada
+
+            if (IsInCheck(CurrentPlayer))//se a jogada resultar em check no próprio rei, desfaz ela
+            {
+                UndoMove(origin, destiny, capturedPiece);
+                throw new BoardException("You cannot put yourself in check!");
+            }
+
+            if (IsInCheck(Enemy(CurrentPlayer)))//se o rei inimigo estiver em cheque
+            {
+                Check = true;
+            } else
+            {
+                Check = false;
+            }
             Shift++;//incrementa o turno
             ChangePlayer();//troca de jogador
         }
@@ -118,6 +147,50 @@ namespace Xadrez.GameFolder.Entities
             aux.ExceptWith(ChessCapturedPieces(color));//tira as peças capturadas do conjunto, ou seja,
             //resta apenas as que estão em jogo
             return aux;
+        }
+
+        private Color Enemy(Color color)//retorna cor do inimigo
+        {
+            if(Color.White == color)
+            {
+                return Color.Black;
+            } else
+            {
+                return Color.White;
+            }
+        }
+
+        private Piece King(Color color)
+        {
+            foreach(Piece x in PiecesInGame(color))//percorre as peças em jogo de um time
+            {
+                if(x is King)//quando encontrar o rei, retorna ele
+                {
+                    return x;
+                }
+            }
+
+            return null;//retornar nulo é só para legibilidade do código, pois deve existir um rei
+        }
+
+        public bool IsInCheck(Color color)
+        {
+            Piece king = King(color);//recebe um rei da cor informada
+            if(king == null)
+            {
+                throw new BoardException("There is no " + king.Color + "king in the board!");
+            }
+
+            foreach(Piece x in PiecesInGame(Enemy(color)))//peças do time inimigo em jogo
+            {
+                bool[,] matriz = x.PossibleMovements();//retorna possíveis movimentos de uma peça inimiga
+                if(matriz[king.Position.Line, king.Position.Column])//se a posição do rei der true retorna true
+                {
+                    return true;
+                }
+
+            }
+            return false;
         }
 
         public void PlaceNewPiece(char column, int line, Piece piece)//método para facilitar 

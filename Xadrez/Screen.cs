@@ -19,10 +19,15 @@ namespace Xadrez
             Console.WriteLine();
             Console.WriteLine("Shift: " + match.Shift);
             Console.WriteLine("Waiting for play: " + match.CurrentPlayer);
+            if (match.Check)
+            {
+                Console.WriteLine("CHECK !");
+            }
         }
 
         public static void ShowCapturedPieces(ChessMatch match)
         {
+            Console.WriteLine();
             Console.WriteLine("Captured Pieces: ");
             Console.Write("White: ");
             ShowGroup(match.ChessCapturedPieces(Color.White));
