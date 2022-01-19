@@ -146,6 +146,21 @@ namespace Xadrez.GameFolder.Entities
                 throw new BoardException("You cannot put yourself in check!");
             }
 
+            Piece p = Board.PositionPiece(destiny);
+
+            // #jogadaespecial promoção
+            if(p is Pawn)
+            {
+                if((p.Color == Color.White && destiny.Line == 0) || (p.Color == Color.Black && destiny.Line == 7))
+                {
+                    p = Board.RemovePiece(destiny);
+                    Pieces.Remove(p);
+                    Piece queen = new Queen(p.Color, Board);
+                    Board.PlacePiece(queen, destiny);
+                    Pieces.Add(queen);
+                }
+            }
+
             if (IsInCheck(Enemy(CurrentPlayer)))//se o rei inimigo estiver em cheque
             {
                 Check = true;
@@ -161,9 +176,7 @@ namespace Xadrez.GameFolder.Entities
             {
                 Shift++;//incrementa o turno
                 ChangePlayer();//troca de jogador
-            }
-
-            Piece p = Board.PositionPiece(destiny);
+            }          
 
             // #jogada especial en passant
             if(p is Pawn && (destiny.Line == origin.Line - 2 || destiny.Line == origin.Line + 2))
