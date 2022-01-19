@@ -27,7 +27,8 @@ namespace Xadrez.GameFolder.Entities
 
         private bool TestTowerForRoque(Position pos)
         {
-            Piece p = Board.PositionPiece(pos);
+            Piece p = Board.PositionPiece(pos);//checa se existe uma torre, se ela  é aliada e 
+            //se ela não foi movimentada ainda
             return p != null && p is Tower && p.Color == Color && p.MovimentAmount == 0;
         }
 
