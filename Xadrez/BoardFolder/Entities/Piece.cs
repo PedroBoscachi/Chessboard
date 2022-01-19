@@ -54,7 +54,7 @@ namespace Xadrez.BoardFolder.Entities
             return false;
         }
 
-        public bool CanMoveTo(Position pos)//possíveis posições que a peça pode ir
+        public bool PossibleMovement(Position pos)//possíveis posições que a peça pode ir
         {
             return PossibleMovements()[pos.Line, pos.Column];//o operador dentro de[] acessa a matriz e
             //retorna um valor booleano, pois  PossibleMoviments retorna uma matriz, ou seja,
