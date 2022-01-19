@@ -18,11 +18,14 @@ namespace Xadrez
             ShowCapturedPieces(match);
             Console.WriteLine();
             Console.WriteLine("Shift: " + match.Shift);
-            Console.WriteLine("Waiting for play: " + match.CurrentPlayer);
-            if (match.Check)
+            if (!match.Finished)
             {
-                Console.WriteLine("CHECK !");
-            }
+                Console.WriteLine("Waiting for play: " + match.CurrentPlayer);
+                if (match.Check)
+                {
+                    Console.WriteLine("CHECK !");
+                }
+            } 
         }
 
         public static void ShowCapturedPieces(ChessMatch match)

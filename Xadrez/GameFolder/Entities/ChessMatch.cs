@@ -73,8 +73,15 @@ namespace Xadrez.GameFolder.Entities
             {
                 Check = false;
             }
-            Shift++;//incrementa o turno
-            ChangePlayer();//troca de jogador
+
+            if (TestCheckmate(Enemy(CurrentPlayer)))//se der chequemate finaliza o programa
+            {        
+                Finished = true;
+            } else
+            {
+                Shift++;//incrementa o turno
+                ChangePlayer();//troca de jogador
+            }
         }
 
         public void ValidatedOriginPosition(Position pos)//erros que podem ocorrer ao escolher a origem
@@ -193,6 +200,40 @@ namespace Xadrez.GameFolder.Entities
             return false;
         }
 
+        public bool TestCheckmate(Color color)
+        {
+            if (!IsInCheck(color))//se não estiver em cheque já corta o método
+            {
+                return false;
+            }
+
+            foreach(Piece x in PiecesInGame(color))//para cada peça aliada no jogo, testa se existe algum
+                //movimento possível para salvar o rei
+            {
+                bool[,] matriz = x.PossibleMovements();
+
+                for(int i = 0; i < Board.Lines; i++)
+                {
+                    for(int j = 0; j < Board.Columns; j++)
+                    {
+                        if (matriz[i, j])//se for true
+                        {
+                            Position origin = x.Position;
+                            Position destiny = new Position(i, j);
+                            Piece capturedPiece = Move(origin, destiny);//a peça x vai para o destino
+                            bool testCheck = IsInCheck(color);//testa se o check continua
+                            UndoMove(origin, destiny, capturedPiece);//desfaz o movimento
+                            if (!testCheck)//se não está mais em check, existe um movimento que salva o rei
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         public void PlaceNewPiece(char column, int line, Piece piece)//método para facilitar 
         {
             Board.PlacePiece(piece, new PositionChess(column, line).ToPosition());
@@ -201,7 +242,7 @@ namespace Xadrez.GameFolder.Entities
         
         private void PlacePieces()
         {
-            PlaceNewPiece('c', 1, new Tower(Color.White, Board));
+            /*PlaceNewPiece('c', 1, new Tower(Color.White, Board));
             PlaceNewPiece('c', 2, new Tower(Color.White, Board));
             PlaceNewPiece('d', 2, new Tower(Color.White, Board));
             PlaceNewPiece('e', 2, new Tower(Color.White, Board));
@@ -213,7 +254,15 @@ namespace Xadrez.GameFolder.Entities
             PlaceNewPiece('d', 7, new Tower(Color.Black, Board));
             PlaceNewPiece('e', 7, new Tower(Color.Black, Board));
             PlaceNewPiece('e', 8, new Tower(Color.Black, Board));
-            PlaceNewPiece('d', 8, new King(Color.Black, Board));
+            PlaceNewPiece('d', 8, new King(Color.Black, Board));*/
+
+            PlaceNewPiece('c', 1, new Tower(Color.White, Board));
+            PlaceNewPiece('d', 1, new King(Color.White, Board));
+            PlaceNewPiece('h', 7, new Tower(Color.White, Board));
+
+            PlaceNewPiece('a', 8, new King(Color.Black, Board));
+            PlaceNewPiece('b', 8, new Tower(Color.Black, Board));
+
         }
     }
 }

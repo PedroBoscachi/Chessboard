@@ -44,9 +44,17 @@ namespace Xadrez
                         Console.ReadLine();
                     }
                 }
-                
 
+                Console.Clear();
                 Screen.ShowBoard(match.Board);
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("CHECKMATE!");
+                Console.WriteLine("Winner: " + match.CurrentPlayer);
+                Console.ReadLine();
+
+
+
             }
             catch (BoardException e)
             {
