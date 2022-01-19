@@ -41,6 +41,26 @@ namespace Xadrez.GameFolder.Entities
                 CapturedPieces.Add(capturedPiece);
             }
 
+            // #jogadaespecial roque pequeno
+            if(p is King && destiny.Column == origin.Column + 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column + 3);
+                Position destinyT = new Position(origin.Line, origin.Column + 1);
+                Piece T = Board.RemovePiece(originT);
+                T.IncrementMovimentAmount();
+                Board.PlacePiece(T, destinyT);
+            }
+
+            // #jogadaespecial roque grande
+            if (p is King && destiny.Column == origin.Column - 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column - 4);
+                Position destinyT = new Position(origin.Line, origin.Column - 1);
+                Piece T = Board.RemovePiece(originT);
+                T.IncrementMovimentAmount();
+                Board.PlacePiece(T, destinyT);
+            }
+
             return capturedPiece;
         }
 
@@ -54,6 +74,26 @@ namespace Xadrez.GameFolder.Entities
                 CapturedPieces.Remove(capturedPiece);//remove ela do  conjunto de capturadas
             }
             Board.PlacePiece(p, origin);//coloca a peça p de volta na posição de origem
+
+            // #jogadaespecial roque pequeno
+            if (p is King && destiny.Column == origin.Column + 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column + 3);
+                Position destinyT = new Position(origin.Line, origin.Column + 1);
+                Piece T = Board.RemovePiece(destinyT);
+                T.DecrementMovimentAmount();
+                Board.PlacePiece(T, originT);
+            }
+
+            // #jogadaespecial roque grande
+            if (p is King && destiny.Column == origin.Column - 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column - 4);
+                Position destinyT = new Position(origin.Line, origin.Column - 1);
+                Piece T = Board.RemovePiece(destinyT);
+                T.DecrementMovimentAmount();
+                Board.PlacePiece(T, originT);
+            }
         }
         
         public void Play(Position origin, Position destiny)//executa a jogada
@@ -246,7 +286,7 @@ namespace Xadrez.GameFolder.Entities
             PlaceNewPiece('b', 1, new Horse(Color.White, Board));
             PlaceNewPiece('c', 1, new Bishop(Color.White, Board));
             PlaceNewPiece('d', 1, new Queen(Color.White, Board));
-            PlaceNewPiece('e', 1, new King(Color.White, Board));
+            PlaceNewPiece('e', 1, new King(Color.White, Board, this));
             PlaceNewPiece('f', 1, new Bishop(Color.White, Board));
             PlaceNewPiece('g', 1, new Horse(Color.White, Board));
             PlaceNewPiece('h', 1, new Tower(Color.White, Board));
@@ -263,7 +303,7 @@ namespace Xadrez.GameFolder.Entities
             PlaceNewPiece('b', 8, new Horse(Color.Black, Board));
             PlaceNewPiece('c', 8, new Bishop(Color.Black, Board));
             PlaceNewPiece('d', 8, new Queen(Color.Black, Board));
-            PlaceNewPiece('e', 8, new King(Color.Black, Board));
+            PlaceNewPiece('e', 8, new King(Color.Black, Board, this));
             PlaceNewPiece('f', 8, new Bishop(Color.Black, Board));
             PlaceNewPiece('g', 8, new Horse(Color.Black, Board));
             PlaceNewPiece('h', 8, new Tower(Color.Black, Board));
